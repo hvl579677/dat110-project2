@@ -1,4 +1,4 @@
-package no.hvl.dat110.broker.processing.tests;
+package no.hvl.dat110.tests.broker.processing.tests;
 
 import static org.junit.Assert.*;
 

@@ -11,10 +11,10 @@ public class TemperatureDevice {
 
 		// simulated / virtual temperature sensor
 		TemperatureSensor sn = new TemperatureSensor();
-		Client client = new Client("temperatursensor", Common.BROKER);
+		//Client client = new Client("temperatursensor", Common.BROKER);
 
-		client.connect();
-		client.publish("temperature", Integer.toString(sn.read());
+		//client.connect();
+		//client.publish("temperature", Integer.toString(sn.read());
 		// TODO - start
 
 		// create a client object and use it to
