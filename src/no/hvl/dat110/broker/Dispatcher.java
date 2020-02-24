@@ -110,10 +110,8 @@ public class Dispatcher extends Stopable {
 
 		Logger.log("onCreateTopic:" + msg.toString());
 
-		// TODO: create the topic in the broker storage
-		// the topic is contained in the create topic message
-
-		throw new UnsupportedOperationException(TODO.method());
+		String topic = msg.getTopic();
+		storage.createTopic(topic);
 
 	}
 
