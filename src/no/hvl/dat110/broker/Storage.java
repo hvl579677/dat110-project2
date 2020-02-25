@@ -16,7 +16,6 @@ public class Storage {
 	
 	// data structure for managing currently connected clients
 	// maps from user to corresponding client session object
-	
 	protected ConcurrentHashMap<String, ClientSession> clients;
 
 	public Storage() {
