@@ -21,9 +21,6 @@ public class Storage {
 	// maps from user to corresponding client session object
 	protected ConcurrentHashMap<String, ClientSession> clients;
 
-	// Disconnected users
-	protected ConcurrentHashMap<String, Boolean> connected;
-	protected ConcurrentHashMap<String, ArrayList<Message>> messageBuffers;
 
 	public Storage() {
 		subscriptions = new ConcurrentHashMap<String, Set<String>>();
@@ -51,10 +48,7 @@ public class Storage {
 
 	public void addClientSession(String user, Connection connection) {
 		// TODO: COMPLETE: add corresponding client session to the storage
-
-		//connected.put(user, true);
 		clients.put(user, new ClientSession(user, connection));
-		//messageBuffers.put(user, new ArrayList<Message>());
 	}
 
 	public void removeClientSession(String user) {

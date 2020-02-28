@@ -107,9 +107,7 @@ public class Dispatcher extends Stopable {
 	}
 
 	public void onCreateTopic(CreateTopicMsg msg) {
-
 		Logger.log("onCreateTopic:" + msg.toString());
-
 		String topic = msg.getTopic();
 		storage.createTopic(topic);
 
@@ -119,42 +117,58 @@ public class Dispatcher extends Stopable {
 
 		Logger.log("onDeleteTopic:" + msg.toString());
 
-		// TODO: delete the topic from the broker storage
+		// TODO: COMPLETE: delete the topic from the broker storage
 		// the topic is contained in the delete topic message
-		
-		throw new UnsupportedOperationException(TODO.method());
+
+		String topic = msg.getTopic();
+
+		storage.deleteTopic(topic);
 	}
 
 	public void onSubscribe(SubscribeMsg msg) {
 
 		Logger.log("onSubscribe:" + msg.toString());
 
-		// TODO: subscribe user to the topic
+		// TODO: COMPLETE: subscribe user to the topic
 		// user and topic is contained in the subscribe message
-		
-		throw new UnsupportedOperationException(TODO.method());
+
+
+		String topic = msg.getTopic();
+		String user = msg.getUser();
+
+		storage.addSubscriber(user, topic);
 
 	}
 
 	public void onUnsubscribe(UnsubscribeMsg msg) {
-
 		Logger.log("onUnsubscribe:" + msg.toString());
 
-		// TODO: unsubscribe user to the topic
+		// TODO: COMPLETE: unsubscribe user to the topic
 		// user and topic is contained in the unsubscribe message
-		
-		throw new UnsupportedOperationException(TODO.method());
+
+		String topic = msg.getTopic();
+		String user = msg.getUser();
+
+		storage.removeSubscriber(user, topic);
+
 	}
 
 	public void onPublish(PublishMsg msg) {
 
 		Logger.log("onPublish:" + msg.toString());
 
-		// TODO: publish the message to clients subscribed to the topic
+		// TODO: COMPLETE: publish the message to clients subscribed to the topic
 		// topic and message is contained in the subscribe message
 		// messages must be sent used the corresponding client session objects
-		
-		throw new UnsupportedOperationException(TODO.method());
+
+		String topic = msg.getTopic();
+
+		Set<String> subscribers = storage.getSubscribers(topic);
+
+		for (String user : subscribers){
+			storage.getSession(user).send(msg);
+		}
+
 
 	}
 }
