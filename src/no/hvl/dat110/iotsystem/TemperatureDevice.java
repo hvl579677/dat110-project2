@@ -26,7 +26,7 @@ public class TemperatureDevice {
 		for(int i = 0; i < COUNT; i++){
 			client.publish(Common.TEMPTOPIC, Integer.toString(sn.read()));
 			try{
-				Thread.sleep(5000);
+				Thread.sleep(50);
 			} catch (InterruptedException e){
 				e.printStackTrace();
 			}
@@ -37,8 +37,6 @@ public class TemperatureDevice {
 		// TODO - END - COMPLETE
 
 		System.out.println("Temperature device stopping ... ");
-
-		throw new UnsupportedOperationException(TODO.method());
 
 	}
 }

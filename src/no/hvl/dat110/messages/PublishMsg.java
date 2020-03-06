@@ -12,12 +12,11 @@ public class PublishMsg extends Message {
 
     private String topic;
     private String message;
-    private String user;
 
     public PublishMsg(String user, String topic, String message){
-        this.topic = message;
+        super(MessageType.PUBLISH, user);
+        this.topic = topic;
         this.message = message;
-        this.user = user;
     }
 
     public String getTopic() {
@@ -28,10 +27,6 @@ public class PublishMsg extends Message {
         return message;
     }
 
-    public String getUser() {
-        return user;
-    }
-
     public void setTopic(String topic) {
         this.topic = topic;
     }
@@ -40,12 +35,8 @@ public class PublishMsg extends Message {
         this.message = message;
     }
 
-    public void setUser(String user) {
-        this.user = user;
-    }
-
     @Override
     public String toString() {
-        return ("PublishMsg [user = " + user + ", topic = " + topic + ", message = " + message + "]");
+        return ("PublishMsg [topic = " + topic + ", message = " + message + "]");
     }
 }
