@@ -1,5 +1,6 @@
 package no.hvl.dat110.broker;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -23,12 +24,17 @@ public class Storage {
 
 	// data structure for managing messages for disconnected clients
 	// maps from user to messages
-	protected ConcurrentHashMap<String, Set<String>> disconnectedMessages;
+	protected ConcurrentHashMap<String, Boolean> connected;
+	protected ConcurrentHashMap<String, ArrayList<Message>> messageBuffers;
 
 
 	public Storage() {
 		subscriptions = new ConcurrentHashMap<String, Set<String>>();
 		clients = new ConcurrentHashMap<String, ClientSession>();
+
+		connected = new ConcurrentHashMap<String, Boolean>();
+		messageBuffers = new ConcurrentHashMap<String, ArrayList<Message>>();
+
 	}
 
 	public Collection<ClientSession> getSessions() {
@@ -52,14 +58,40 @@ public class Storage {
 
 	public void addClientSession(String user, Connection connection) {
 		// TODO: COMPLETE: add corresponding client session to the storage
+		connected.put(user, true);
 		clients.put(user, new ClientSession(user, connection));
+		messageBuffers.put(user, new ArrayList<Message>());
 	}
 
 	public void removeClientSession(String user) {
 		// TODO: COMPLETE: remove client session for user from the storage
 		clients.remove(user);
+	}
 
-		
+	public void disconnectUser(String user){
+		connected.put(user, false);
+		clients.get(user).disconnect();
+	}
+
+	public void reconnectUser(String user, Connection connection){
+		connected.put(user, true);
+		clients.put(user, new ClientSession(user, connection));
+	}
+
+	public boolean isConnected(String user){
+		return connected.get(user);
+	}
+
+	public void addMessageToBuffer(String user, Message msg){
+		messageBuffers.get(user).add(msg);
+	}
+
+	public ArrayList<Message> getMessageBuffers(String user){
+		return messageBuffers.get(user);
+	}
+
+	public void emptyMessageBuffers(String user){
+		messageBuffers.get(user).clear();
 	}
 
 	public void createTopic(String topic) {

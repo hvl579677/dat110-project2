@@ -1,5 +1,6 @@
 package no.hvl.dat110.broker;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.Collection;
 
@@ -93,6 +94,16 @@ public class Dispatcher extends Stopable {
 
 		storage.addClientSession(user, connection);
 
+		if(storage.getSession(user) == null){
+			storage.addClientSession(user, connection);
+		} else {
+			storage.reconnectUser(user, connection);
+			ArrayList<Message> messages = storage.getMessageBuffers(user);
+			for(Message message : messages){
+				storage.getSession(user).send(message);
+			}
+			storage.emptyMessageBuffers(user);
+		}
 
 	}
 
@@ -167,9 +178,11 @@ public class Dispatcher extends Stopable {
 		Set<String> subscribers = storage.getSubscribers(topic);
 
 		for (String user : subscribers){
-			storage.getSession(user).send(msg);
+			if(storage.isConnected(user)){
+				storage.getSession(user).send(msg);
+			} else {
+				storage.getSession(user).send(msg);
+			}
 		}
-
-
 	}
 }
