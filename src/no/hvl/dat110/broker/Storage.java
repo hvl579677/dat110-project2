@@ -21,6 +21,10 @@ public class Storage {
 	// maps from user to corresponding client session object
 	protected ConcurrentHashMap<String, ClientSession> clients;
 
+	// data structure for managing messages for disconnected clients
+	// maps from user to messages
+	protected ConcurrentHashMap<String, Set<String>> disconnectedMessages;
+
 
 	public Storage() {
 		subscriptions = new ConcurrentHashMap<String, Set<String>>();

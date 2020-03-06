@@ -93,6 +93,7 @@ public class Dispatcher extends Stopable {
 
 		storage.addClientSession(user, connection);
 
+
 	}
 
 	// called by dispatch upon receiving a disconnect message
